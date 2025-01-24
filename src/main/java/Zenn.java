@@ -10,16 +10,30 @@ public class Zenn {
         System.out.println("Hello! I'm Zenn\n" + logo + "\n How may I help you today?");
 
         Scanner scanner = new Scanner(System.in);
+        String[] history = new String[100];
+        int taskCount = 0;
         String command;
 
         while (true) {
+            System.out.println(">");
             command = scanner.nextLine();
+
             if (command.equalsIgnoreCase("bye")) {
                 System.out.println("Bye bye! See you soon!");
                 break;
-            }
 
-            System.out.println("  " + command);
+            } else if (command.equalsIgnoreCase("list")) {
+                System.out.println("Here's your todo list:");
+                for (int i = 0; i < taskCount; i++) {
+                    System.out.println((i + 1) +". " + history[i]);
+                }
+            } else {
+                if (taskCount < 100) {
+                    history[taskCount] = command;
+                    taskCount++;
+                    System.out.println("You've added: " + command);
+                }
+            }
         }
         scanner.close();
     }

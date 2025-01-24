@@ -24,7 +24,7 @@ public class Zenn {
             } else if (command.equalsIgnoreCase("list")) {
                 System.out.println("Here's your todo list:");
                 for (int i = 0; i < taskCount; i++) {
-                    System.out.println(history[i]);
+                    System.out.println((i + 1) +". " + history[i]);
                 }
             } else {
                 if (taskCount < 100) {

@@ -27,6 +27,14 @@ public class Zenn {
                 for (int i = 0; i < taskCount; i++) {
                     System.out.println((i + 1) + ". " + tasks[i]);
                 }
+            } else if (input.startsWith("todo ")) {
+                addTodo(input.substring(5));
+            } else if (input.startsWith("deadline ")) {
+                String[] parts = input.substring(9).split("/by ", 2);
+                addDeadline(parts[0], parts[1]);
+            } else if (input.startsWith("event ")) {
+                String[] parts = input.substring(6).split(" /from | /to ", 3);
+                addEvent(parts[0], parts[1], parts[2]);
             } else if (input.startsWith("mark ")) {
                 int index = Integer.parseInt(input.split(" ")[1]) - 1;
                 if (index >= 0 && index < taskCount) {
@@ -54,6 +62,33 @@ public class Zenn {
             }
         }
         scanner.close();
+    }
+
+    private static void addTodo(String description) {
+        if (taskCount < MAX_TASKS) {
+            tasks[taskCount++] = new Todo(description);
+            printTaskAdded(tasks[taskCount - 1]);
+        }
+    }
+
+    private static void addDeadline(String description, String by) {
+        if (taskCount < MAX_TASKS) {
+            tasks[taskCount++] = new Deadline(description, by);
+            printTaskAdded(tasks[taskCount - 1]);
+        }
+    }
+
+    private static void addEvent(String description, String from, String to) {
+        if (taskCount < MAX_TASKS) {
+            tasks[taskCount++] = new Event(description, from, to);
+            printTaskAdded(tasks[taskCount - 1]);
+        }
+    }
+
+    private static void printTaskAdded(Task task) {
+        System.out.println("Got it. I've added this task:");
+        System.out.println("  " + task);
+        System.out.println("Now you have " + taskCount + " tasks in the todo list.");
     }
 }
 

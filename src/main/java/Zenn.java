@@ -65,6 +65,16 @@ public class Zenn {
                     } else {
                         throw new ZennException("Invalid task number.");
                     }
+                } else if (input.startsWith("delete ")) {
+                    int index = Integer.parseInt(input.split(" ")[1]) -1;
+                    if (index >= 0 && index < tasks.size()) {
+                        Task removedTask = tasks.remove(index);
+                        System.out.println("Yay! Settle liao.");
+                        System.out.println(" " + removedTask);
+                        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                    } else {
+                        throw new ZennException("Invalid task number.");
+                    }
                 } else {
                     throw new ZennException("don't know what you saying");
                 }

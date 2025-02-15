@@ -1,8 +1,9 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 public class Zenn {
-    private static int taskCount = 0;
-    private static final int MAX_TASKS = 100;
-    private static Task[] tasks = new Task[MAX_TASKS];
+    //private static int taskCount = 0;
+    //private static final int MAX_TASKS = 100;
+    private static ArrayList<Task> tasks = new ArrayList<>();
 
     public static void main(String[] args) {;
         String logo = " ____ ____ _    _ _    _\n"
@@ -11,84 +12,89 @@ public class Zenn {
                 + " / / |  __|   \\| |   \\| |\n"
                 + "/ /_ | |__| |\\   | |\\   |\n"
                 + "|____|____|_| \\ _|_| \\ _|\n";
-        System.out.println("Hello! I'm Zenn\n" + logo + "\n How may I help you today?");
+        System.out.println("Hello! I'm \n" + logo + "\n What you need help with?");
 
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println(">");
-            String input = scanner.nextLine();
+            try {
+                System.out.println(">");
+                String input = scanner.nextLine();
+                String[] parts = input.split(" ", 2);
 
-            if (input.equalsIgnoreCase("bye")) {
-                System.out.println("Bye bye! See you soon!");
-                break;
-            } else if (input.equalsIgnoreCase("list")) {
-                System.out.println("Here's your todo list");
-                for (int i = 0; i < taskCount; i++) {
-                    System.out.println((i + 1) + ". " + tasks[i]);
-                }
-            } else if (input.startsWith("todo ")) {
-                addTodo(input.substring(5));
-            } else if (input.startsWith("deadline ")) {
-                String[] parts = input.substring(9).split("/by ", 2);
-                addDeadline(parts[0], parts[1]);
-            } else if (input.startsWith("event ")) {
-                String[] parts = input.substring(6).split(" /from | /to ", 3);
-                addEvent(parts[0], parts[1], parts[2]);
-            } else if (input.startsWith("mark ")) {
-                int index = Integer.parseInt(input.split(" ")[1]) - 1;
-                if (index >= 0 && index < taskCount) {
-                    tasks[index].markAsDone();
-                    System.out.println("Nice! I've marked this task as done:");
-                    System.out.println("  " + tasks[index]);
+                if (input.equalsIgnoreCase("bye")) {
+                    System.out.println("Bye! See you again ah!");
+                    break;
+                } else if (input.startsWith("list")) {
+                    System.out.println("Your very very long todo list:");
+                    for (int i = 0; i < tasks.size(); i++) {
+                        System.out.println((i + 1) + ". " + tasks.get(i));
+                    }
+                } else if (input.startsWith("todo ")) {
+                    if (parts.length < 2 || parts[1].trim().isEmpty()) {
+                        throw new ZennException("Eh! Description cannot be empty la");
+                    }
+                    addTodo(parts[1]);
+                } else if (input.startsWith("deadline ")) {
+                    String[] deadlineParts = parts[1].split("/by ", 2);
+                    if (deadlineParts.length < 2) {
+                        throw new ZennException("Incorrect format. Use: deadline <task> /by <time>");
+                    }
+                    addDeadline(deadlineParts[0], deadlineParts[1]);
+                } else if (input.startsWith("event ")) {
+                    String[] eventParts = parts[1].split(" /from | /to ", 3);
+                    if (eventParts.length < 3) {
+                        throw new ZennException("Incorrect format. Use: event <task> /from <start> /to <end>");
+                    }
+                    addEvent(eventParts[0], eventParts[1], eventParts[2]);
+                } else if (input.startsWith("mark ")) {
+                    int index = Integer.parseInt(parts[1]) - 1;
+                    if (index >= 0 && index < tasks.size()) {
+                        tasks.get(index).markAsDone();
+                        System.out.println("Nice! Task done liao:");
+                        System.out.println("  " + tasks.get(index));
+                    } else {
+                        throw new ZennException("Invalid task number.");
+                    }
+                } else if (input.startsWith("unmark ")) {
+                    int index = Integer.parseInt(parts[1]) - 1;
+                    if (index >= 0 && index < tasks.size()) {
+                        tasks.get(index).unmarkAsDone();
+                        System.out.println("walao, haven't do finish:");
+                        System.out.println("  " + tasks.get(index));
+                    } else {
+                        throw new ZennException("Invalid task number.");
+                    }
                 } else {
-                    System.out.println("Invalid task number.");
+                    throw new ZennException("don't know what you saying");
                 }
-            } else if (input.startsWith("unmark ")) {
-                int index = Integer.parseInt(input.split(" ")[1]) - 1;
-                if (index >= 0 && index < taskCount) {
-                    tasks[index].unmarkAsDone();
-                    System.out.println("OK, I've marked this task as not done yet:");
-                    System.out.println("  " + tasks[index]);
-                } else {
-                    System.out.println("Invalid task number.");
-                }
-            } else {
-                if (taskCount < MAX_TASKS) {
-                    tasks[taskCount] = new Task(input);
-                    taskCount++;
-                    System.out.println("You've added: " + input);
-                }
+            } catch (ZennException e) {
+                System.out.println(" " + e.getMessage());
+            } catch (NumberFormatException e) {
+                System.out.println("enter valid task number leh");
             }
         }
         scanner.close();
     }
 
     private static void addTodo(String description) {
-        if (taskCount < MAX_TASKS) {
-            tasks[taskCount++] = new Todo(description);
-            printTaskAdded(tasks[taskCount - 1]);
-        }
+        tasks.add(new Todo(description));
+        printTaskAdded(tasks.get(tasks.size() - 1));
     }
 
     private static void addDeadline(String description, String by) {
-        if (taskCount < MAX_TASKS) {
-            tasks[taskCount++] = new Deadline(description, by);
-            printTaskAdded(tasks[taskCount - 1]);
-        }
+        tasks.add(new Deadline(description, by));
+        printTaskAdded(tasks.get(tasks.size() - 1));
     }
 
     private static void addEvent(String description, String from, String to) {
-        if (taskCount < MAX_TASKS) {
-            tasks[taskCount++] = new Event(description, from, to);
-            printTaskAdded(tasks[taskCount - 1]);
-        }
+        tasks.add(new Event(description, from, to));
+        printTaskAdded(tasks.get(tasks.size() - 1));
     }
 
     private static void printTaskAdded(Task task) {
-        System.out.println("Got it. I've added this task:");
+        System.out.println("Ok, added liao:");
         System.out.println("  " + task);
-        System.out.println("Now you have " + taskCount + " tasks in the todo list.");
+        System.out.println("Now you have " + tasks.size() + " tasks in the todo list. (stop procrastinating!)");
     }
 }
-

@@ -21,6 +21,8 @@ abstract class Task {
         this.isDone = false;
     }
 
+    public abstract String toFileFormat();
+
     public String toString() {
         return "[" + getStatusIcon() + "]" + description;
     }

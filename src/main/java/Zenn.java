@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Zenn {
     //private static int taskCount = 0;
     //private static final int MAX_TASKS = 100;
-    private static ArrayList<Task> tasks = new ArrayList<>();
+    private static ArrayList<Task> tasks;
 
     public static void main(String[] args) {;
         String logo = " ____ ____ _    _ _    _\n"
@@ -14,6 +14,7 @@ public class Zenn {
                 + "|____|____|_| \\ _|_| \\ _|\n";
         System.out.println("Hello! I'm \n" + logo + "\n What you need help with?");
 
+        tasks = Storage.loadTasks();
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -26,31 +27,18 @@ public class Zenn {
                     System.out.println("Bye! See you again ah!");
                     break;
                 } else if (input.startsWith("list")) {
-                    System.out.println("Your very very long todo list:");
-                    for (int i = 0; i < tasks.size(); i++) {
-                        System.out.println((i + 1) + ". " + tasks.get(i));
-                    }
+                    listTasks();
                 } else if (input.startsWith("todo ")) {
-                    if (parts.length < 2 || parts[1].trim().isEmpty()) {
-                        throw new ZennException("Eh! Description cannot be empty la");
-                    }
-                    addTodo(parts[1]);
+                    addTodo(parts);
                 } else if (input.startsWith("deadline ")) {
-                    String[] deadlineParts = parts[1].split("/by ", 2);
-                    if (deadlineParts.length < 2) {
-                        throw new ZennException("Incorrect format. Use: deadline <task> /by <time>");
-                    }
-                    addDeadline(deadlineParts[0], deadlineParts[1]);
+                    addDeadline(parts);
                 } else if (input.startsWith("event ")) {
-                    String[] eventParts = parts[1].split(" /from | /to ", 3);
-                    if (eventParts.length < 3) {
-                        throw new ZennException("Incorrect format. Use: event <task> /from <start> /to <end>");
-                    }
-                    addEvent(eventParts[0], eventParts[1], eventParts[2]);
+                    addEvent(parts);
                 } else if (input.startsWith("mark ")) {
                     int index = Integer.parseInt(parts[1]) - 1;
                     if (index >= 0 && index < tasks.size()) {
                         tasks.get(index).markAsDone();
+                        Storage.saveTasks(tasks);
                         System.out.println("Nice! Task done liao:");
                         System.out.println("  " + tasks.get(index));
                     } else {
@@ -60,6 +48,7 @@ public class Zenn {
                     int index = Integer.parseInt(parts[1]) - 1;
                     if (index >= 0 && index < tasks.size()) {
                         tasks.get(index).unmarkAsDone();
+                        Storage.saveTasks(tasks);
                         System.out.println("walao, haven't do finish:");
                         System.out.println("  " + tasks.get(index));
                     } else {
@@ -69,6 +58,7 @@ public class Zenn {
                     int index = Integer.parseInt(input.split(" ")[1]) -1;
                     if (index >= 0 && index < tasks.size()) {
                         Task removedTask = tasks.remove(index);
+                        Storage.saveTasks(tasks);
                         System.out.println("Yay! Settle liao.");
                         System.out.println(" " + removedTask);
                         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
@@ -87,19 +77,43 @@ public class Zenn {
         scanner.close();
     }
 
-    private static void addTodo(String description) {
-        tasks.add(new Todo(description));
-        printTaskAdded(tasks.get(tasks.size() - 1));
+    private static void listTasks() {
+        System.out.println("Your very very long todo list:");
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println((i + 1) + ". " + tasks.get(i));
+        }
     }
 
-    private static void addDeadline(String description, String by) {
-        tasks.add(new Deadline(description, by));
-        printTaskAdded(tasks.get(tasks.size() - 1));
+    private static void addTodo(String[] parts) throws ZennException {
+        if (parts.length < 2) {
+            throw new ZennException("Eh! Description cannot be empty la");
+        }
+        Task newTask = new Todo(parts[1]);
+        tasks.add(newTask);
+        Storage.saveTasks(tasks);
+        printTaskAdded(newTask);
     }
 
-    private static void addEvent(String description, String from, String to) {
-        tasks.add(new Event(description, from, to));
-        printTaskAdded(tasks.get(tasks.size() - 1));
+    private static void addDeadline(String [] parts) throws ZennException {
+        if (parts.length < 2 || !parts[1].contains("/by")) {
+            throw new ZennException("Incorrect format. Use: deadline <task> /by <time>");
+        }
+        String[] deadlineParts = parts[1].split("/by ", 2);
+        Task newTask = new Deadline(deadlineParts[0], deadlineParts[1]);
+        tasks.add(newTask);
+        Storage.saveTasks(tasks);
+        printTaskAdded(newTask);
+    }
+
+    private static void addEvent(String[] parts) throws ZennException {
+        if (parts.length < 2 || !parts[1].contains("/from") || !parts[1].contains("/to")) {
+            throw new ZennException("Incorrect format. Use: event <task> /from <start> /to <end>");
+        }
+        String[] eventParts = parts[1].split(" /from | /to ", 3);
+        Task newTask = new Event(eventParts[0], eventParts[1], eventParts[2]);
+        tasks.add(newTask);
+        Storage.saveTasks(tasks);
+        printTaskAdded(newTask);
     }
 
     private static void printTaskAdded(Task task) {

@@ -1,3 +1,8 @@
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.ArrayList;
 public class Zenn {
@@ -5,7 +10,8 @@ public class Zenn {
     //private static final int MAX_TASKS = 100;
     private static ArrayList<Task> tasks;
 
-    public static void main(String[] args) {;
+    public static void main(String[] args) {
+        ;
         String logo = " ____ ____ _    _ _    _\n"
                 + "|_ _ |  __| \\  | | \\  | |\n"
                 + "  / /| |__|  \\ | |  \\ | |\n"
@@ -54,8 +60,21 @@ public class Zenn {
                     } else {
                         throw new ZennException("Invalid task number.");
                     }
+                } else if (input.startsWith("on ")) {
+                    try {
+                        LocalDate date = LocalDate.parse(parts[1], DateTimeFormatter.ofPattern("d/M/yyyy"));
+                        System.out.println("Tasks on " + date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ":");
+                        for (Task task : tasks) {
+                            if ((task instanceof Deadline && ((Deadline) task).isOnDate(date)) ||
+                                    (task instanceof Event && ((Event) task).isOnDate(date))) {
+                                System.out.println(task);
+                            }
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Invalid date format. Use: on d/M/yyyy (e.g., on 2/12/2019)");
+                    }
                 } else if (input.startsWith("delete ")) {
-                    int index = Integer.parseInt(input.split(" ")[1]) -1;
+                    int index = Integer.parseInt(input.split(" ")[1]) - 1;
                     if (index >= 0 && index < tasks.size()) {
                         Task removedTask = tasks.remove(index);
                         Storage.saveTasks(tasks);
@@ -94,15 +113,30 @@ public class Zenn {
         printTaskAdded(newTask);
     }
 
-    private static void addDeadline(String [] parts) throws ZennException {
-        if (parts.length < 2 || !parts[1].contains("/by")) {
+    private static void addDeadline(String[] parts) throws ZennException {
+        if (parts.length < 2 || !parts[1].contains("/by ")) {
             throw new ZennException("Incorrect format. Use: deadline <task> /by <time>");
         }
-        String[] deadlineParts = parts[1].split("/by ", 2);
-        Task newTask = new Deadline(deadlineParts[0], deadlineParts[1]);
-        tasks.add(newTask);
-        Storage.saveTasks(tasks);
-        printTaskAdded(newTask);
+        String[] deadlineParts = parts[1].split(" /by ", 2);
+        if (deadlineParts.length < 2 || deadlineParts[1].isBlank()) {
+            throw new ZennException("Deadline date/time cannot be empty leh pls");
+        }
+
+        String description = deadlineParts[0].trim();
+        String byString = deadlineParts[1].trim();
+        DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
+        DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mm a");
+
+        try {
+            LocalDateTime byDateTime = LocalDateTime.parse(byString, inputFormat);
+            String formattedDate = byDateTime.format(outputFormat);
+            Task newTask = new Deadline(description, byDateTime);
+            tasks.add(newTask);
+            Storage.saveTasks(tasks);
+            printTaskAdded(newTask);
+        } catch (DateTimeParseException e) {
+            throw new ZennException("Invalid date format. Use: d/M/yyyy HHmm (eg. 2/12/2019 1800)");
+        }
     }
 
     private static void addEvent(String[] parts) throws ZennException {
@@ -110,10 +144,17 @@ public class Zenn {
             throw new ZennException("Incorrect format. Use: event <task> /from <start> /to <end>");
         }
         String[] eventParts = parts[1].split(" /from | /to ", 3);
-        Task newTask = new Event(eventParts[0], eventParts[1], eventParts[2]);
-        tasks.add(newTask);
-        Storage.saveTasks(tasks);
-        printTaskAdded(newTask);
+        DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
+        try {
+            LocalDateTime fromDateTime = LocalDateTime.parse(eventParts[1], inputFormat);
+            LocalDateTime toDateTime = LocalDateTime.parse(eventParts[2], inputFormat);
+            Task newTask = new Event(eventParts[0], fromDateTime, toDateTime);
+            tasks.add(newTask);
+            Storage.saveTasks(tasks);
+            printTaskAdded(newTask);
+        } catch (DateTimeParseException e) {
+            throw new ZennException("Invalid date format. Use: d/M/yyyy HHmm for both start and end times.");
+        }
     }
 
     private static void printTaskAdded(Task task) {

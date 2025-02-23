@@ -1,9 +1,13 @@
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Storage {
     private static final String FILE_PATH = "./data/Zenn.txt";
+    private static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
+
 
     public static void saveTasks(ArrayList<Task> tasks) {
         try {
@@ -38,10 +42,15 @@ public class Storage {
                 switch (parts[0]) {
                     case "T": task = new Todo(parts[2]);
                     break;
-                    case "D": task = new Deadline(parts[2], parts[3]);
-                    break;
-                    case "E": task = new Event(parts[2], parts[3], parts[4]);
-                    break;
+                    case "D":
+                        LocalDateTime byDateTime = LocalDateTime.parse(parts[3], INPUT_FORMAT);
+                        task = new Deadline(parts[2], byDateTime);
+                        break;
+                    case "E":
+                        LocalDateTime fromDateTime = LocalDateTime.parse(parts[3], INPUT_FORMAT);
+                        LocalDateTime toDateTime = LocalDateTime.parse(parts[4], INPUT_FORMAT);
+                        task = new Event(parts[2], fromDateTime, toDateTime);
+                        break;
                     default: System.out.println("Skipping unknown type: " + line);
                     continue;
                 }

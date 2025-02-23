@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -7,9 +8,13 @@ public class Deadline extends Task {
     private static final DateTimeFormatter OUTPUT_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mm a");
     private static final DateTimeFormatter FILE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
 
-    public Deadline(String description, String by) {
+    public Deadline(String description, LocalDateTime by) {
         super(description, TaskType.DEADLINE);
-        this.by = LocalDateTime.parse(by, INPUT_FORMAT);
+        this.by = by;
+    }
+
+    public boolean isOnDate(LocalDate date) {
+        return this.by.toLocalDate().equals(date);
     }
 
     @Override

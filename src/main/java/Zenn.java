@@ -6,9 +6,9 @@ import java.util.Date;
 import java.util.Scanner;
 import java.util.ArrayList;
 public class Zenn {
-    //private static int taskCount = 0;
-    //private static final int MAX_TASKS = 100;
-    private static ArrayList<Task> tasks;
+
+    private static TaskList tasks;
+    //private static ArrayList<Task> tasks;
 
     public static void main(String[] args) {
         ;
@@ -20,7 +20,7 @@ public class Zenn {
                 + "|____|____|_| \\ _|_| \\ _|\n";
         System.out.println("Hello! I'm \n" + logo + "\n What you need help with?");
 
-        tasks = Storage.loadTasks();
+        tasks = new TaskList(Storage.loadTasks());
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -42,48 +42,27 @@ public class Zenn {
                     addEvent(parts);
                 } else if (input.startsWith("mark ")) {
                     int index = Integer.parseInt(parts[1]) - 1;
-                    if (index >= 0 && index < tasks.size()) {
-                        tasks.get(index).markAsDone();
-                        Storage.saveTasks(tasks);
-                        System.out.println("Nice! Task done liao:");
-                        System.out.println("  " + tasks.get(index));
-                    } else {
-                        throw new ZennException("Invalid task number.");
-                    }
+                    Task task = tasks.getTask(index);
+                    task.markAsDone();
+                    Storage.saveTasks(tasks.getTasks());
+                    System.out.println("Nice! Task done liao:");
+                    System.out.println("  " + task);
                 } else if (input.startsWith("unmark ")) {
                     int index = Integer.parseInt(parts[1]) - 1;
-                    if (index >= 0 && index < tasks.size()) {
-                        tasks.get(index).unmarkAsDone();
-                        Storage.saveTasks(tasks);
-                        System.out.println("walao, haven't do finish:");
-                        System.out.println("  " + tasks.get(index));
-                    } else {
-                        throw new ZennException("Invalid task number.");
-                    }
+                    Task task = tasks.getTask(index);
+                    task.unmarkAsDone();
+                    Storage.saveTasks(tasks.getTasks());
+                    System.out.println("walao, haven't do finish:");
+                    System.out.println("  " + task);
                 } else if (input.startsWith("on ")) {
-                    try {
-                        LocalDate date = LocalDate.parse(parts[1], DateTimeFormatter.ofPattern("d/M/yyyy"));
-                        System.out.println("Tasks on " + date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ":");
-                        for (Task task : tasks) {
-                            if ((task instanceof Deadline && ((Deadline) task).isOnDate(date)) ||
-                                    (task instanceof Event && ((Event) task).isOnDate(date))) {
-                                System.out.println(task);
-                            }
-                        }
-                    } catch (Exception e) {
-                        System.out.println("Invalid date format. Use: on d/M/yyyy (e.g., on 2/12/2019)");
-                    }
+                    filterTasksByDate(parts[1]);
                 } else if (input.startsWith("delete ")) {
                     int index = Integer.parseInt(input.split(" ")[1]) - 1;
-                    if (index >= 0 && index < tasks.size()) {
-                        Task removedTask = tasks.remove(index);
-                        Storage.saveTasks(tasks);
-                        System.out.println("Yay! Settle liao.");
-                        System.out.println(" " + removedTask);
-                        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-                    } else {
-                        throw new ZennException("Invalid task number.");
-                    }
+                    Task removedTask = tasks.removeTask(index);
+                    Storage.saveTasks(tasks.getTasks());
+                    System.out.println("Yay! Settle liao.");
+                    System.out.println(" " + removedTask);
+                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
                 } else {
                     throw new ZennException("don't know what you saying");
                 }
@@ -99,7 +78,11 @@ public class Zenn {
     private static void listTasks() {
         System.out.println("Your very very long todo list:");
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + ". " + tasks.get(i));
+            try {
+                System.out.println((i + 1) + ". " + tasks.getTask(i));
+            } catch (ZennException e) {
+                System.out.println("Error retrieving task at index " + i + ": " + e.getMessage());
+            }
         }
     }
 
@@ -108,8 +91,8 @@ public class Zenn {
             throw new ZennException("Eh! Description cannot be empty la");
         }
         Task newTask = new Todo(parts[1]);
-        tasks.add(newTask);
-        Storage.saveTasks(tasks);
+        tasks.addTask(newTask);
+        Storage.saveTasks(tasks.getTasks());
         printTaskAdded(newTask);
     }
 
@@ -131,11 +114,11 @@ public class Zenn {
             LocalDateTime byDateTime = LocalDateTime.parse(byString, inputFormat);
             String formattedDate = byDateTime.format(outputFormat);
             Task newTask = new Deadline(description, byDateTime);
-            tasks.add(newTask);
-            Storage.saveTasks(tasks);
+            tasks.addTask(newTask);
+            Storage.saveTasks(tasks.getTasks());
             printTaskAdded(newTask);
         } catch (DateTimeParseException e) {
-            throw new ZennException("Invalid date format. Use: d/M/yyyy HHmm (eg. 2/12/2019 1800)");
+            throw new ZennException("Invalid date format. Use: d/M/yyyy HHmm (eg. 2/12/2022 1800)");
         }
     }
 
@@ -149,11 +132,26 @@ public class Zenn {
             LocalDateTime fromDateTime = LocalDateTime.parse(eventParts[1], inputFormat);
             LocalDateTime toDateTime = LocalDateTime.parse(eventParts[2], inputFormat);
             Task newTask = new Event(eventParts[0], fromDateTime, toDateTime);
-            tasks.add(newTask);
-            Storage.saveTasks(tasks);
+            tasks.addTask(newTask);
+            Storage.saveTasks(tasks.getTasks());
             printTaskAdded(newTask);
         } catch (DateTimeParseException e) {
             throw new ZennException("Invalid date format. Use: d/M/yyyy HHmm for both start and end times.");
+        }
+    }
+
+    private static void filterTasksByDate(String dateInput) {
+        try {
+            LocalDate date = LocalDate.parse(dateInput, DateTimeFormatter.ofPattern("d/M/yyyy"));
+            System.out.println("Tasks on " + date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ":");
+            for (Task task : tasks.getTasks()) {
+                if ((task instanceof Deadline && ((Deadline) task).isOnDate(date)) ||
+                        (task instanceof Event && ((Event) task).isOnDate(date))) {
+                    System.out.println(task);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Invalid date format. Use: on d/M/yyyy (e.g., on 2/12/2019)");
         }
     }
 

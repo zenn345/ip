@@ -6,7 +6,7 @@ public class Deadline extends Task {
     private LocalDateTime by;
     private static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
     private static final DateTimeFormatter OUTPUT_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mm a");
-    private static final DateTimeFormatter FILE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
+    private static final DateTimeFormatter FILE_FORMAT = DateTimeFormatter.ofPattern("d/MM/yyyy HHmm");
 
     public Deadline(String description, LocalDateTime by) {
         super(description, TaskType.DEADLINE);

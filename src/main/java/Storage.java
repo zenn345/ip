@@ -8,7 +8,6 @@ public class Storage {
     private static final String FILE_PATH = "./data/Zenn.txt";
     private static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
 
-
     public static void saveTasks(ArrayList<Task> tasks) {
         try {
             Path path = Paths.get(FILE_PATH);
@@ -24,7 +23,7 @@ public class Storage {
         }
     }
 
-    public static ArrayList<Task> loadTasks() {
+    public static ArrayList<Task> loadTasks() throws ZennException {
         ArrayList<Task> tasks = new ArrayList<>();
         Path path = Paths.get(FILE_PATH);
 
@@ -58,7 +57,7 @@ public class Storage {
                 tasks.add(task);
             }
         } catch (IOException e) {
-            System.out.println("Error loading tasks: " + e.getMessage());
+            throw new ZennException("Error loading tasks: " + e.getMessage());
         }
         return tasks;
     }

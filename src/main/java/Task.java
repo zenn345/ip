@@ -3,7 +3,7 @@ abstract class Task {
     protected boolean isDone;
     protected TaskType type;
 
-    public Task(String description, TaskType tyoe) {
+    public Task(String description, TaskType type) {
         this.description = description;
         this.isDone = false;
         this.type = type;

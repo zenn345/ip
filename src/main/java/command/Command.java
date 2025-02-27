@@ -1,3 +1,5 @@
+package command;
+
 public class Command {
     protected String command;
     protected String arguments;

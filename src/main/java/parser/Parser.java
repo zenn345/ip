@@ -1,3 +1,5 @@
+package parser;
+
 public class Parser {
     public Command parseCommand(String userInput) {
         String[] commandParts = userInput.split(" ", 2);

@@ -1,6 +1,4 @@
-package task;
-
-import task.Task;
+package zenn.task;
 
 import java.util.ArrayList;
 public class TaskList {

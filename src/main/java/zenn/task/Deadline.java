@@ -1,6 +1,4 @@
-package task;
-
-import task.Task;
+package zenn.task;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +17,10 @@ public class Deadline extends Task {
 
     public boolean isOnDate(LocalDate date) {
         return this.by.toLocalDate().equals(date);
+    }
+
+    public String formatDate(DateTimeFormatter formatter) {
+        return by.format(formatter);
     }
 
     @Override

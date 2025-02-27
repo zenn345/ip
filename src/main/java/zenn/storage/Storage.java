@@ -1,9 +1,9 @@
-package storage;
+package zenn.storage;
 
-import task.Deadline;
-import task.Event;
+import zenn.task.Deadline;
+import zenn.task.Event;
 import task.Task;
-import task.Todo;
+import zenn.task.Todo;
 
 import java.io.*;
 import java.nio.file.*;

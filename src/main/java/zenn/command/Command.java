@@ -1,4 +1,4 @@
-package command;
+package zenn.command;
 
 public class Command {
     protected String command;

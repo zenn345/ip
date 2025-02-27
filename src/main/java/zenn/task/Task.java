@@ -1,4 +1,4 @@
-package task;
+package zenn.task;
 
 abstract class Task {
     protected String description;

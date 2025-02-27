@@ -1,11 +1,15 @@
 package zenn;
 
-import command.Command;
-import exceptions.ZennException;
-import parser.Parser;
-import storage.Storage;
+import zenn.command.Command;
+import zenn.exceptions.ZennException;
+import zenn.parser.Parser;
+import zenn.storage.Storage;
 import task.*;
-import ui.Ui;
+import zenn.task.Deadline;
+import zenn.task.Event;
+import zenn.task.TaskList;
+import zenn.task.Todo;
+import zenn.ui.Ui;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

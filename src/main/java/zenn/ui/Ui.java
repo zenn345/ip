@@ -1,4 +1,4 @@
-package ui;
+package zenn.ui;
 
 import java.util.Scanner;
 public class Ui {

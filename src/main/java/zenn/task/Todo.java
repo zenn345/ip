@@ -1,6 +1,4 @@
-package task;
-
-import task.Task;
+package zenn.task;
 
 public class Todo extends Task {
     public Todo(String description) {

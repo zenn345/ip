@@ -1,4 +1,4 @@
-package parser;
+package zenn.parser;
 
 public class Parser {
     public Command parseCommand(String userInput) {

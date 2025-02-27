@@ -1,3 +1,12 @@
+package zenn;
+
+import command.Command;
+import exceptions.ZennException;
+import parser.Parser;
+import storage.Storage;
+import task.*;
+import ui.Ui;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -43,7 +52,7 @@ public class Zenn {
                 } catch (NumberFormatException e) {
                     ui.showError("Invalid task index format. Please enter a valid number.");
                 } catch (ZennException e) {
-                    ui.showError("Task index out of range.");
+                    ui.showError("task.Task index out of range.");
                 }
                 break;
             case "todo":
@@ -124,7 +133,7 @@ public class Zenn {
                 } catch (NumberFormatException e) {
                     ui.showError("Invalid task index format. Please enter a valid number.");
                 } catch (ZennException e) {
-                    ui.showError("Task index out of range.");
+                    ui.showError("task.Task index out of range.");
                 }
                 break;
             case "bye":

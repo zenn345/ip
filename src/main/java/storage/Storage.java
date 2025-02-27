@@ -1,3 +1,10 @@
+package storage;
+
+import task.Deadline;
+import task.Event;
+import task.Task;
+import task.Todo;
+
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
@@ -5,7 +12,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Storage {
-    private static final String FILE_PATH = "./data/Zenn.txt";
+    private static final String FILE_PATH = "./data/zenn.Zenn.txt";
     private static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
 
     public static void saveTasks(ArrayList<Task> tasks) {

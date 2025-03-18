@@ -4,11 +4,7 @@ import zenn.command.Command;
 import zenn.exceptions.ZennException;
 import zenn.parser.Parser;
 import zenn.storage.Storage;
-import task.*;
-import zenn.task.Deadline;
-import zenn.task.Event;
-import zenn.task.TaskList;
-import zenn.task.Todo;
+import zenn.task.*;
 import zenn.ui.Ui;
 
 import java.time.LocalDateTime;

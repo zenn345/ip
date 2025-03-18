@@ -51,6 +51,21 @@ public class Zenn {
                     storage.saveTasks(tasks.getAllTasks());
                     ui.showMessage("Wah! Good Job, so productive, this task is marked as done:");
                     ui.showMessage(tasks.getTask(taskIndex).toFileFormat());
+                    ui.showMessage("Yay! so productive!");
+                    ui.showMessage(tasks.getTask(taskIndex).toString());
+                } catch (NumberFormatException e) {
+                    ui.showError("Invalid task index format. Please enter a valid number.");
+                } catch (ZennException e) {
+                    ui.showError("task.Task index out of range.");
+                }
+                break;
+            case "unmark":
+                try {
+                    int taskIndex = Integer.parseInt(command.getArguments()) - 1;
+                    tasks.unmarkTaskAsDone(taskIndex);
+                    storage.saveTasks(tasks.getAllTasks());
+                    ui.showMessage("OMG... More work?");
+                    ui.showMessage(tasks.getTask(taskIndex).toString());
                 } catch (NumberFormatException e) {
                     ui.showError("Invalid task index format. Please enter a valid number.");
                 } catch (ZennException e) {

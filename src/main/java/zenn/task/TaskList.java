@@ -1,6 +1,11 @@
 package zenn.task;
 
+<<<<<<< HEAD:src/main/java/zenn/task/TaskList.java
 import zenn.exceptions.ZennException;
+=======
+import task.Task;
+import exceptions.ZennException;
+>>>>>>> branch-A-JUnit:src/main/java/task/TaskList.java
 
 import java.util.ArrayList;
 
@@ -46,6 +51,13 @@ public class TaskList {
             throw new ZennException("Invalid task index!");
         }
         tasks.get(index).markAsDone();
+    }
+
+    public void unmarkTaskAsDone(int index) throws ZennException {
+        if (index < 0 || index >= tasks.size()) {
+            throw new ZennException("Invalid task index!");
+        }
+        tasks.get(index).unmarkAsDone();
     }
 
     public String listTasks() {

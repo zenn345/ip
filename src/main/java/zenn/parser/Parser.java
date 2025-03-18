@@ -2,6 +2,8 @@ package zenn.parser;
 
 import zenn.command.Command;
 
+import command.Command;
+
 public class Parser {
     public Command parseCommand(String userInput) {
         String[] commandParts = userInput.split(" ", 2);

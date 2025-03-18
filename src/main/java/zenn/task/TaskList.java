@@ -1,11 +1,8 @@
 package zenn.task;
 
-<<<<<<< HEAD:src/main/java/zenn/task/TaskList.java
 import zenn.exceptions.ZennException;
-=======
-import task.Task;
-import exceptions.ZennException;
->>>>>>> branch-A-JUnit:src/main/java/task/TaskList.java
+import zenn.task.Task;
+import zenn.exceptions.ZennException;
 
 import java.util.ArrayList;
 

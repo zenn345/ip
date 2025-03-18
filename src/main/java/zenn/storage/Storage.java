@@ -32,6 +32,7 @@ public class Storage {
             Path path = Paths.get(FILE_PATH);
             Files.createDirectories(path.getParent());
             BufferedWriter writer = Files.newBufferedWriter(path);
+
             for (Task task : tasks) {
                 writer.write(task.toFileFormat());
                 writer.newLine();

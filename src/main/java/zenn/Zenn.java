@@ -52,6 +52,7 @@ public class Zenn {
                 String userInput = ui.readCommand();
                 Command command = parser.parseCommand(userInput);
                 command.execute();
+
                 if (userInput.equalsIgnoreCase("bye")) {
                     isRunning = false;
                 }

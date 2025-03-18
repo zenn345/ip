@@ -31,8 +31,8 @@ public class TodoCommand extends Command {
     }
 
     /**
-     * Executes the todo command. It parses the task arguments, creates a new Todo task,
-     * and adds it to the task list.
+     * Executes the todo command. It parses the task arguments,
+     * creates a new Todo task, and adds it to the task list.
      */
     @Override
     public void execute() {

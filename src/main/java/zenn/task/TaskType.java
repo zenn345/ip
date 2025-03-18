@@ -1,7 +1,7 @@
 package zenn.task;
 
 /**
- * Enum representing the different types of tasks.
+ * Represents the different types of tasks.
  * Each task can be of one of the following types: TODO, DEADLINE, or EVENT.
  */
 enum TaskType {

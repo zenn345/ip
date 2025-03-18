@@ -38,10 +38,6 @@ public class Deadline extends Task {
         return this.by.toLocalDate().equals(date);
     }
 
-    //public String formatDate(DateTimeFormatter formatter) {
-    //    return by.format(formatter);
-    //}
-
     /**
      * Converts the deadline task into a string format suitable for saving to a file.
      *

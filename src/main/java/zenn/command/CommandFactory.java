@@ -5,9 +5,8 @@ import zenn.storage.Storage;
 import zenn.ui.Ui;
 
 /**
- * The {@code CommandFactory} class is responsible for creating the appropriate command
- * based on the type of command specified by the user. It helps decouple the command creation
- * logic from the main program flow.
+ * Creates the appropriate command based on the type of command specified by the user.
+ * It helps decouple the command creation logic from the main program flow.
  */
 public class CommandFactory {
     private final TaskList tasks;

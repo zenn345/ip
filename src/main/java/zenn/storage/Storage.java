@@ -6,22 +6,27 @@ import zenn.task.Task;
 import zenn.task.Todo;
 import zenn.exceptions.ZennException;
 
-import zenn.task.Deadline;
-import zenn.task.Event;
-import zenn.task.Task;
-import zenn.task.Todo;
-import zenn.exceptions.ZennException;
-
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Represents the storage system for tasks in the Zenn application.
+ * This class is responsible for loading and saving tasks to a file.
+ * It uses a predefined file path and provides methods to read and write task data.
+ */
 public class Storage {
     private static final String FILE_PATH = "./data/zenn.Zenn.txt";
     private static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
 
+    /**
+     * Saves a list of tasks to the storage file.
+     * Each task is written in a specific format to the file, one task per line.
+     *
+     * @param tasks The list of tasks to be saved.
+     */
     public static void saveTasks(ArrayList<Task> tasks) {
         try {
             Path path = Paths.get(FILE_PATH);
@@ -37,6 +42,14 @@ public class Storage {
         }
     }
 
+    /**
+     * Loads tasks from the storage file.
+     * The file is read line by line and tasks are recreated from the stored data.
+     * If the file doesn't exist, an empty list is returned.
+     *
+     * @return A list of tasks loaded from the storage file.
+     * @throws ZennException If there is an error while loading the tasks.
+     */
     public static ArrayList<Task> loadTasks() throws ZennException {
         ArrayList<Task> tasks = new ArrayList<>();
         Path path = Paths.get(FILE_PATH);

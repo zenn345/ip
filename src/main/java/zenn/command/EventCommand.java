@@ -8,11 +8,24 @@ import zenn.exceptions.ZennException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Represents a command that adds an event task to the task list.
+ * It parses the arguments to get the description and event date,
+ * and creates a new event task which is then added to the task list.
+ */
 public class EventCommand extends Command {
     private final TaskList tasks;
     private final Storage storage;
     private final Ui ui;
 
+    /**
+     * Constructs a EventCommand to add an event task to the task list.
+     *
+     * @param arguments The arguments passed from the user, which should include description and event date.
+     * @param tasks The TaskList object that holds the list of tasks.
+     * @param storage The Storage object used for saving tasks.
+     * @param ui The Ui object used for displaying messages to the user.
+     */
     public EventCommand(String arguments, TaskList tasks, Storage storage, Ui ui) {
         super("event");
         this.tasks = tasks;
@@ -20,6 +33,10 @@ public class EventCommand extends Command {
         this.ui = ui;
     }
 
+    /**
+     * Executes the event command. It parses the event task arguments, creates a new Event task,
+     * and adds it to the task list. If the format is incorrect, an error message is shown.
+     */
     @Override
     public void execute() {
         try {

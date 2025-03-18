@@ -49,6 +49,8 @@ public class Zenn {
                     int taskIndex = Integer.parseInt(command.getArguments()) - 1;
                     tasks.markTaskAsDone(taskIndex);
                     storage.saveTasks(tasks.getAllTasks());
+                    ui.showMessage("Wah! Good Job, so productive, this task is marked as done:");
+                    ui.showMessage(tasks.getTask(taskIndex).toFileFormat());
                 } catch (NumberFormatException e) {
                     ui.showError("Invalid task index format. Please enter a valid number.");
                 } catch (ZennException e) {

@@ -36,7 +36,7 @@ public class Zenn {
             tasks = new TaskList();
         }
         this.commandFactory = new CommandFactory(tasks, storage, ui);
-        this.parser = new Parser(commandFactory);
+        this.parser = new Parser(commandFactory, ui, tasks);
     }
 
     /**

@@ -2,6 +2,9 @@ package zenn.parser;
 
 import zenn.command.Command;
 import zenn.command.CommandFactory;
+import zenn.command.FindCommand;
+import zenn.ui.Ui;
+import zenn.task.TaskList;
 
 /**
  * Represents the command parser for the Zenn application.
@@ -10,14 +13,18 @@ import zenn.command.CommandFactory;
  */
 public class Parser {
     private final CommandFactory commandFactory;
+    private final Ui ui;
+    private final TaskList taskList;
 
     /**
      * Constructs a Parser object with the given CommandFactory.
      *
      * @param commandFactory The CommandFactory used to create commands based on user input.
      */
-    public Parser(CommandFactory commandFactory) {
+    public Parser(CommandFactory commandFactory, Ui ui, TaskList taskList) {
         this.commandFactory = commandFactory;
+        this.ui = ui;
+        this.taskList = taskList;
     }
 
     /**
@@ -31,6 +38,14 @@ public class Parser {
         String[] commandParts = userInput.split(" ", 2);
         String command = commandParts[0];
         String arguments = (commandParts.length > 1) ? commandParts[1] : "";
+
+        if (command.equals("find")) {
+            if (arguments.isEmpty()) {
+                return new FindCommand(ui, taskList, "Missing Keyword");
+            }
+            return new FindCommand(ui, taskList, arguments);
+        }
+
         return commandFactory.createCommand(command, arguments);
     }
 }

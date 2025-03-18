@@ -3,6 +3,7 @@ package zenn.task;
 import zenn.exceptions.ZennException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents a list of tasks and provides methods to manage and retrieve tasks.
@@ -106,6 +107,27 @@ public class TaskList {
             throw new ZennException("Invalid task index!");
         }
         tasks.get(index).unmarkAsDone();
+    }
+
+    /**
+     * Retrieves tasks with matching keyword from the TaskList.
+     *
+     * @param keyword The word to search for.
+     * @return The list of tasks with matching keyword.
+     */
+    public String findTasks(String keyword) {
+        StringBuilder matchingTasks = new StringBuilder();
+        for (int i = 0; i < tasks.size(); i++) {
+            Task task = tasks.get(i);
+            if (task.description.toLowerCase().contains(keyword.toLowerCase())) {
+                matchingTasks.append(i + 1).append(". ").append(task).append("\n");
+            }
+        }
+
+        if (matchingTasks.length() == 0) {
+            return "No tasks found matching the keyword: " + keyword;
+        }
+        return "Here are the matching tasks in your list:\n" + matchingTasks.toString();
     }
 
     /**

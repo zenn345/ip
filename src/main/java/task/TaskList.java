@@ -1,6 +1,7 @@
 package task;
 
 import task.Task;
+import exceptions.ZennException;
 
 import java.util.ArrayList;
 public class TaskList {
@@ -45,6 +46,13 @@ public class TaskList {
             throw new ZennException("Invalid task index!");
         }
         tasks.get(index).markAsDone();
+    }
+
+    public void unmarkTaskAsDone(int index) throws ZennException {
+        if (index < 0 || index >= tasks.size()) {
+            throw new ZennException("Invalid task index!");
+        }
+        tasks.get(index).unmarkAsDone();
     }
 
     public String listTasks() {

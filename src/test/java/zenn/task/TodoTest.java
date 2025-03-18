@@ -1,7 +1,7 @@
 package zenn.task;
 
 import org.junit.jupiter.api.Test;
-import task.Todo;
+import zenn.task.Todo;
 
 import static org.junit.jupiter.api.Assertions.*;
 public class TodoTest {

@@ -1,7 +1,7 @@
 package zenn.task;
 
 import org.junit.jupiter.api.Test;
-import task.Event;
+import zenn.task.Event;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

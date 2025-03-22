@@ -1,5 +1,5 @@
 .label {
-    -fx-background-color: #ffffff;
+    -fx-background-color: #e6e6fa;
     -fx-border-color: #000000;
     -fx-border-width: 2px;
     -fx-background-radius: 1em 1em 0 1em;
@@ -7,6 +7,9 @@
 }
 
 .reply-label {
+    -fx-background-color: #cecef5;
+    -fx-border-color: #000000;
+    -fx-border-width: 2px;
     -fx-background-radius: 1em 1em 1em 0;
     -fx-border-radius: 1em 1em 1em 0;
 }

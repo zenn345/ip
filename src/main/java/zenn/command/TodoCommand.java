@@ -33,13 +33,20 @@ public class TodoCommand extends Command {
     /**
      * Executes the todo command. It parses the task arguments,
      * creates a new Todo task, and adds it to the task list.
+     *
+     * @return A list of task including the new task added.
      */
     @Override
-    public void execute() {
-        tasks.addTask(new Todo(arguments));
-        storage.saveTasks(tasks.getAllTasks());
-        ui.showMessage("Got it. I've added this task:");
-        ui.showMessage(tasks.getAllTasks().get(tasks.size() - 1).toString());
-        ui.showMessage("Now you have " + tasks.size() + " tasks in the list.");
+    public String execute() {
+        if (arguments.isEmpty()) {
+            return "Description cannot be empty";
+        } else {
+            tasks.addTask(new Todo(arguments));
+            storage.saveTasks(tasks.getAllTasks());
+            String message = "Got it. I've added this task:\n"
+                + tasks.getAllTasks().get(tasks.size() - 1).toString() + "\n"
+                + "Now you have " + tasks.size() + " tasks in the list.";
+            return message;
+        }
     }
 }

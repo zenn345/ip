@@ -1,14 +1,19 @@
 package zenn.parser;
 
 import zenn.command.Command;
-import zenn.command.FindCommand;
 import zenn.command.CommandFactory;
+import zenn.ui.Ui;
+import zenn.task.TaskList;
 
 public class Parser {
     private final CommandFactory commandFactory;
+    private final Ui ui;
+    private final TaskList tasks;
 
-    public Parser(CommandFactory commandFactory) {
+    public Parser(CommandFactory commandFactory, Ui ui, TaskList tasks) {
         this.commandFactory = commandFactory;
+        this.ui = ui;
+        this.tasks = tasks;
     }
 
     /**
@@ -22,14 +27,6 @@ public class Parser {
         String[] commandParts = userInput.split(" ", 2);
         String command = commandParts[0];
         String arguments = (commandParts.length > 1) ? commandParts[1] : "";
-
-        if (command.equals("find")) {
-            if (arguments.isEmpty()) {
-                return new FindCommand(ui, taskList, "Missing Keyword");
-            }
-            return new FindCommand(ui, taskList, arguments);
-        }
-
         return commandFactory.createCommand(command, arguments);
     }
 }

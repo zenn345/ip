@@ -27,7 +27,7 @@ public class EventCommand extends Command {
      * @param ui The Ui object used for displaying messages to the user.
      */
     public EventCommand(String arguments, TaskList tasks, Storage storage, Ui ui) {
-        super("event");
+        super(arguments);
         this.tasks = tasks;
         this.storage = storage;
         this.ui = ui;
@@ -36,15 +36,17 @@ public class EventCommand extends Command {
     /**
      * Executes the event command. It parses the event task arguments, creates a new Event task,
      * and adds it to the task list. If the format is incorrect, an error message is shown.
+     *
+     * @return A message showing that Event task has been created or an error message.
      */
     @Override
-    public void execute() {
+    public String execute() {
         try {
             String[] parts = arguments.split(" /from | /to ");
-            if (parts.length < 3) {
-                ui.showError("Invalid event format. Please provide a description, start time, and end time.");
-                ui.showMessage("The correct format for an event task is: 'description /from d/M/yyyy HHmm /to d/M/yyyy HHmm'");
-                return;
+            if (parts.length != 3) {
+                return ui.showError("Invalid event format. Please provide a description, start time, and end time.\n"
+                    + "The correct format for an event task is:\n"
+                    + "event [description] /from d/M/yyyy HHmm /to d/M/yyyy HHmm'");
             }
 
             String description = parts[0].trim();
@@ -59,11 +61,11 @@ public class EventCommand extends Command {
             tasks.addTask(event);
             storage.saveTasks(tasks.getAllTasks());
 
-            ui.showMessage("Got it. I've added this task:");
-            ui.showMessage(event.toString());
-            ui.showMessage("Now you have " + tasks.size() + " tasks in the list.");
+            return "Got it. I've added this task:\n"
+                + event.toString()
+                + "\nNow you have " + tasks.size() + " tasks in the list.";
         } catch (Exception e) {
-            ui.showError("Error creating event task. Please check the format.");
+            return ui.showError("Error creating event task. Please check the format.");
         }
     }
 }

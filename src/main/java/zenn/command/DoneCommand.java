@@ -33,19 +33,21 @@ public class DoneCommand extends Command {
     /**
      * Executes the command to mark the task at the specified index as done.
      * If the task index is invalid or the format is incorrect, an error message is displayed.
+     *
+     * @return A success message or an error message.
      */
     @Override
-    public void execute() {
+    public String execute() {
         try {
             int taskIndex = Integer.parseInt(arguments) - 1;
             tasks.markTaskAsDone(taskIndex);
             storage.saveTasks(tasks.getAllTasks());
-            ui.showMessage("Wah! Good Job, so productive, this task is marked as done:");
-            ui.showMessage(tasks.getTask(taskIndex).toString());
+            return ui.showMessage("Wah! Good Job, so productive, this task is marked as done:\n"
+                + tasks.getTask(taskIndex).toString());
         } catch (NumberFormatException e) {
-            ui.showError("Invalid task index format. Please enter a valid number.");
+            return ui.showError("Invalid task index format. Please enter a valid number.");
         } catch (ZennException e) {
-            ui.showError("Task index out of range.");
+            return ui.showError("Task index out of range.");
         }
     }
 }

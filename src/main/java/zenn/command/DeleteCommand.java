@@ -34,32 +34,33 @@ public class DeleteCommand extends Command {
      * Executes the delete command. It parses the task index from the arguments,
      * removes the specified task, and updates the task list in storage.
      * If an invalid task index is provided, an error message is shown.
+     *
+     * @return A message indicating whether the task was successfully deleted or
+     * an error message if the task index is invalid or the format is incorrect.
+     *
      */
     @Override
-    public void execute() {
+    public String execute() {
         try {
             if (arguments == null || arguments.trim().isEmpty()) {
-                ui.showError("Please provide a valid task number.");
-                return;
+                return ui.showError("Please provide a valid task number.");
             }
 
             int taskIndex = Integer.parseInt(arguments.trim()) - 1;
 
             if (taskIndex < 0 || taskIndex >= tasks.size()) {
-                ui.showError("Invalid task index. Please enter a valid task number.");
-                return;
+                return ui.showError("Invalid task index. Please enter a valid task number.");
             }
 
             Task taskToRemove = tasks.getTask(taskIndex);
             tasks.removeTask(taskIndex);
             storage.saveTasks(tasks.getAllTasks());
-            ui.showMessage("Got it. I've removed this task:");
-            ui.showMessage(taskToRemove.toString());
-            ui.showMessage("Now you have " + tasks.size() + " tasks in the list.");
+
+            return ui.showMessage("Got it. I've removed this task:\n"
+                + taskToRemove.toString() + "\n"
+                + "Now you have " + tasks.size() + " tasks in the list.");
         } catch (NumberFormatException e) {
-            ui.showError("Invalid task index format. Please enter a valid number.");
-        } catch (ZennException e) {
-            ui.showError("Task index out of range.");
+            return ui.showError("Invalid task index format. Please enter a valid number.");
         }
     }
 }

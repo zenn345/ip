@@ -1,7 +1,7 @@
-package zenn.ui;
+package zenn.gui;
 
-import zenn.Zenn;
 import javafx.application.Platform;
+import zenn.Zenn;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -25,7 +25,7 @@ public class MainWindow extends AnchorPane {
     private Zenn zenn;
 
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/NewUser.png"));
-    private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/System.png"));
+    private Image zennImage = new Image(this.getClass().getResourceAsStream("/images/System.png"));
 
     @FXML
     public void initialize() {
@@ -44,11 +44,22 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() {
         String input = userInput.getText();
-        String response = zenn.run(input);
+        String response = zenn.getResponse(input);
         dialogContainer.getChildren().addAll(
             DialogBox.getUserDialog(input, userImage),
-            DialogBox.getDukeDialog(response, dukeImage)
+            DialogBox.getZennDialog(response, zennImage)
         );
         userInput.clear();
+        if (input.equals("bye")) {
+            Platform.exit();
+        }
+    }
+
+    /**
+     * Displays a message in the welcome label.
+     * @param message The message to display.
+     */
+    public void showMessage(String message) {
+        dialogContainer.getChildren().addAll(DialogBox.getZennDialog(message, zennImage));
     }
 }

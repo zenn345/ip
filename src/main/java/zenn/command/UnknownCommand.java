@@ -22,9 +22,11 @@ public class UnknownCommand extends Command {
 
     /**
      * Executes the unknown command. It shows an error message to the user.
+     *
+     * @return An error message.
      */
     @Override
-    public void execute() {
-        ui.showError("Unknown command! Please enter a valid command.");
+    public String execute() {
+        return ui.showError("Unknown command! Please enter a valid command.");
     }
 }

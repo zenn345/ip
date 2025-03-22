@@ -29,14 +29,16 @@ public class FindCommand extends Command {
     /**
      * Executes the find command, which searches for tasks in the task list based on the keyword.
      * Displays the matching tasks to the user via the UI.
+     *
+     * @return A list of task with the keyword or error message.
      */
     @Override
-    public void execute() {
+    public String execute() {
         if ("Missing keyword".equals(keyword)) {
-            ui.showError("Missing keyword. Please specify a keyword.");
+            return ui.showError("Missing keyword. Please specify a keyword.");
         } else {
             String result = taskList.findTasks(keyword);
-            ui.showMessage(result);
+            return ui.showMessage(result);
         }
     }
 }

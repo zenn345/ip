@@ -21,12 +21,13 @@ public class ByeCommand extends Command {
     }
 
     /**
-     * Executes the bye command. It shows a goodbye message to the user
-     * and then terminates the program.
+     * Executes the "bye" command. This command displays a goodbye message to the user
+     * and terminates the program.
+     *
+     * @return The goodbye message that is displayed to the user.
      */
     @Override
-    public void execute() {
-        ui.showMessage("Bye! See you again ah!");
-        System.exit(0);
+    public String execute() {
+        return ui.showMessage("Bye! See you again ah!");
     }
 }

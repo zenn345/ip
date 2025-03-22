@@ -33,19 +33,20 @@ public class UnmarkCommand extends Command {
     /**
      * Executes the command to mark the task at the specified index as not yet done.
      * If the task index is invalid or the format is incorrect, an error message is displayed.
+     *
+     * @return A string message confirming the task status update or an error message.
      */
     @Override
-    public void execute() {
+    public String execute() {
         try {
             int taskIndex = Integer.parseInt(arguments) - 1;
             tasks.unmarkTaskAsDone(taskIndex);
             storage.saveTasks(tasks.getAllTasks());
-            ui.showMessage("OMG... More work?");
-            ui.showMessage(tasks.getTask(taskIndex).toString());
+            return "OMG... More work?\n" + tasks.getTask(taskIndex).toString();
         } catch (NumberFormatException e) {
-            ui.showError("Invalid task index format. Please enter a valid number.");
+            return "Invalid task index format. Please enter a valid number.";
         } catch (ZennException e) {
-            ui.showError("Task index out of range.");
+            return ui.showError("Task index out of range.");
         }
     }
 }

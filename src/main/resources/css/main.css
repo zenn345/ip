@@ -4,7 +4,7 @@
 }
 
 .text-field {
-    --fx-background-color: #ffffff;
+    --fx-background-color: #e6e6fa;
     -fx-border-color: #000000;
     -fx-border-radius: 5;
     -fx-background-radius: 5;
@@ -12,18 +12,18 @@
 }
 
 .button {
-    -fx-background-color: #77dd77;
+    -fx-background-color: #a8e6ce;
     -fx-font: italic bold 16px "Arial";
 }
 
 .button:hover {
-    -fx-background-color:cyan;
+    -fx-background-color:#4cedaf;
     -fx-font-size: 18px;
 }
 
 .button:pressed {
-    -fx-background-color:orange;
-    -fx-font-size: 20px;
+    -fx-background-color:#10c781;
+    -fx-font-size: 16px;
 }
 
 .scroll-pane,
@@ -37,7 +37,7 @@
 }
 
 .scroll-bar .thumb {
-    -fx-background-color: #ff9cb4;
+    -fx-background-color: #000000;
     -fx-background-radius: 1em;
 }
 

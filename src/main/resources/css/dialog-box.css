@@ -11,12 +11,7 @@
     -fx-border-radius: 1em 1em 1em 0;
 }
 
-#displayPicture {
-    /* Change size of image. */
-    -fx-scale-x: 1;
-    -fx-scale-y: 1;
-
-    /* Rotate image clockwise by degrees. */
-    -fx-rotate: 0;
+.displayPicture {
+    -fx-alignment: center
 }
 

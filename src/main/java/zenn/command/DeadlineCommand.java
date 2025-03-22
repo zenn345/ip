@@ -25,7 +25,7 @@ public class DeadlineCommand extends Command {
             String[] parts = arguments.split(" /by ");
             if (parts.length < 2) {
                 ui.showError("Invalid deadline format. Please provide a description and a deadline date.");
-                ui.showMessage("The correct format for a deadline task is: 'description /by d/M/yyyy HHmm'");
+                ui.showMessage("The correct format for a deadline task is: 'deadline description /by d/M/yyyy HHmm'");
                 return;
             }
             String description = parts[0].trim();
@@ -38,11 +38,18 @@ public class DeadlineCommand extends Command {
             tasks.addTask(deadline);
             storage.saveTasks(tasks.getAllTasks());
 
-            ui.showMessage("Got it. I've added this task:");
-            ui.showMessage(deadline.toString());
-            ui.showMessage("Now you have " + tasks.size() + " tasks in the list.");
+            StringBuilder response = new StringBuilder("Got it. I've added this task:\n");
+            StringBuilder Deadlineresponse = new StringBuilder(deadline.toString());
+            StringBuilder UpdateTaskresponse = new StringBuilder("Now you have " + tasks.size() + " tasks in the list.");
+            response.append(Deadlineresponse).append(UpdateTaskresponse);
+            //ui.showMessage("Got it. I've added this task:");
+            //ui.showMessage(deadline.toString());
+            //ui.showMessage("Now you have " + tasks.size() + " tasks in the list.");
+            ui.showMessage(response.toString());
         } catch (Exception e) {
             ui.showError("Error creating deadline task. Please check the format.");
         }
     }
 }
+
+

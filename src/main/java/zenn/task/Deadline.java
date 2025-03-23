@@ -1,8 +1,5 @@
 package zenn.task;
 
-import zenn.task.Task;
-import zenn.task.TaskType;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

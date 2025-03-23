@@ -35,15 +35,16 @@ public class DeadlineCommand extends Command {
     /**
      * Executes the deadline command. It parses the deadline task arguments, creates a new Deadline task,
      * and adds it to the task list. If the format is incorrect, an error message is shown.
+     *
+     * @return A message indicating the result of executing the deadline command.
      */
     @Override
-    public void execute() {
+    public String execute() {
         try {
             String[] parts = arguments.split(" /by ");
             if (parts.length < 2) {
-                ui.showError("Invalid deadline format. Please provide a description and a deadline date.");
-                ui.showMessage("The correct format for a deadline task is: 'description /by d/M/yyyy HHmm'");
-                return;
+                return ui.showError("Invalid deadline format.\n" + "Please provide a description & a deadline date.\n"
+                    + "The correct format for a deadline task is: 'description /by d/M/yyyy HHmm'");
             }
             String description = parts[0].trim();
             String dateTimeString = parts[1].trim();
@@ -55,11 +56,11 @@ public class DeadlineCommand extends Command {
             tasks.addTask(deadline);
             storage.saveTasks(tasks.getAllTasks());
 
-            ui.showMessage("Got it. I've added this task:");
-            ui.showMessage(deadline.toString());
-            ui.showMessage("Now you have " + tasks.size() + " tasks in the list.");
+            return ui.showMessage("Got it. I've added this task:\n"
+                + deadline.toString() + "\n"
+                + "Now you have " + tasks.size() + " tasks in the list.");
         } catch (Exception e) {
-            ui.showError("Error creating deadline task. Please check the format.");
+            return ui.showError("Error creating deadline task. Please check the format.");
         }
     }
 }

@@ -42,11 +42,11 @@ test {
 }
 
 application {
-    mainClass.set("zenn.Zenn")
+    mainClass.set("zenn.gui.Launcher")
 }
 
 shadowJar {
-    archiveBaseName = "Zenn"
+    archiveBaseName = "zenn"
     archiveClassifier = null
 }
 

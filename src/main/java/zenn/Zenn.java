@@ -43,8 +43,8 @@ public class Zenn {
      * Runs the main command loop of the Zenn application.
      * It continuously reads user input, parses the command, and executes it until the user quits the application.
      */
-    public void run() {
-        ui.showWelcome();
+    public String run() {
+        System.out.println(ui.showWelcome());
         boolean isRunning = true;
 
         while (isRunning) {
@@ -57,10 +57,25 @@ public class Zenn {
                     isRunning = false;
                 }
             } catch (Exception e) {
-                ui.showError("Unexpected error. Please try again.");
+                System.out.println(ui.showError("Unexpected error. Please try again."));
             }
         }
-        ui.showGoodbye();
+        return ui.showGoodbye();
+    }
+
+    /**
+     * Processes user input and returns a response (for GUI integration).
+     *
+     * @param input The user input.
+     * @return The response message.
+     */
+    public String getResponse(String input) {
+        try {
+            Command command = parser.parseCommand(input);
+            return command.execute();
+        } catch (Exception e) {
+            return ui.showError("Unexpected Error. Please try again.");
+        }
     }
 
     /**

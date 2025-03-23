@@ -19,8 +19,10 @@ public abstract class Command {
     }
 
     /**
-     * Executes the command. Each subclass must provide its own implementation
-     * of this method to define the specific action that the command performs.
+     * This method is abstract and serves as a blueprint for all command classes.
+     *
+     * @return The result of executing the command, typically a message or status.
      */
-    public abstract void execute();
+    public abstract String execute();
 }
+

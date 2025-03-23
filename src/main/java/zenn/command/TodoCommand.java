@@ -19,9 +19,9 @@ public class TodoCommand extends Command {
      * Constructs a TodoCommand to add a task to the task list.
      *
      * @param arguments The arguments passed from the user, which should include description.
-     * @param tasks The TaskList object that holds the list of tasks.
-     * @param storage The Storage object used for saving tasks.
-     * @param ui The Ui object used for displaying messages to the user.
+     * @param tasks     The TaskList object that holds the list of tasks.
+     * @param storage   The Storage object used for saving tasks.
+     * @param ui        The Ui object used for displaying messages to the user.
      */
     public TodoCommand(String arguments, TaskList tasks, Storage storage, Ui ui) {
         super(arguments);
@@ -33,13 +33,20 @@ public class TodoCommand extends Command {
     /**
      * Executes the todo command. It parses the task arguments,
      * creates a new Todo task, and adds it to the task list.
+     *
+     * @return A list of task including the new task added.
      */
     @Override
-    public void execute() {
-        tasks.addTask(new Todo(arguments));
-        storage.saveTasks(tasks.getAllTasks());
-        ui.showMessage("Got it. I've added this task:");
-        ui.showMessage(tasks.getAllTasks().get(tasks.size() - 1).toString());
-        ui.showMessage("Now you have " + tasks.size() + " tasks in the list.");
+    public String execute() {
+        if (arguments.isEmpty()) {
+            return "Description cannot be empty";
+        } else {
+            tasks.addTask(new Todo(arguments));
+            storage.saveTasks(tasks.getAllTasks());
+            String message = "Got it. I've added this task:\n"
+                + tasks.getAllTasks().get(tasks.size() - 1).toString() + "\n"
+                + "Now you have " + tasks.size() + " tasks in the list.";
+            return message;
+        }
     }
 }

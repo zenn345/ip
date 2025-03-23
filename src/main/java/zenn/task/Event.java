@@ -45,7 +45,7 @@ public class Event extends Task {
     @Override
     public String toFileFormat() {
         return "E | " + getStatusIcon() + " | " + description + " | "
-                + from.format(INPUT_FORMAT) + " | " + to.format(INPUT_FORMAT);
+            + from.format(INPUT_FORMAT) + " | " + to.format(INPUT_FORMAT);
     }
 
     /**

@@ -51,6 +51,11 @@ public class CommandFactory {
                 return new ByeCommand(arguments, ui);
             case "delete":
                 return new DeleteCommand(arguments, tasks, storage, ui);
+            case "find":
+                if (arguments.isEmpty()) {
+                    return new FindCommand(ui, tasks, "Missing keyword");
+                }
+                return new FindCommand(ui, tasks, arguments);
             default:
                 return new UnknownCommand(ui);
         }

@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter;
  * It uses a predefined file path and provides methods to read and write task data.
  */
 public class Storage {
-    private static final String FILE_PATH = "./data/zenn.Zenn.txt";
+    private static final String FILE_PATH = "./data/tasks.txt";
     private static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
 
     /**
@@ -68,7 +68,7 @@ public class Storage {
                 Task task;
                 switch (parts[0]) {
                     case "T": task = new Todo(parts[2]);
-                    break;
+                        break;
                     case "D":
                         LocalDateTime byDateTime = LocalDateTime.parse(parts[3], INPUT_FORMAT);
                         task = new Deadline(parts[2], byDateTime);
@@ -79,7 +79,7 @@ public class Storage {
                         task = new Event(parts[2], fromDateTime, toDateTime);
                         break;
                     default: System.out.println("Skipping unknown type: " + line);
-                    continue;
+                        continue;
                 }
                 if (parts[1].equals("X")) task.markAsDone();
                 tasks.add(task);

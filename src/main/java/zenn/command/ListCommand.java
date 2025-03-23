@@ -1,9 +1,9 @@
 package zenn.command;
 
-import zenn.Zenn;
-import zenn.exceptions.ZennException;
 import zenn.task.TaskList;
 import zenn.ui.Ui;
+
+import java.lang.StringBuilder;
 
 /**
  * Represents a command that lists all the tasks in the task list.
@@ -30,20 +30,24 @@ public class ListCommand extends Command {
      * Executes the list command. It displays all tasks in the task list.
      * If there are no tasks present, a message is shown indication there
      * are no tasks. If there is an error, an error message is shown.
+     *
+     * @return A message to show all the tasks or an error message.
      */
     @Override
-    public void execute() {
+    public String execute() {
         if (tasks.size() == 0) {
-            ui.showMessage("Nothing to do yet!");
+            return ui.showMessage("Nothing to do yet!");
         }
 
-        ui.showMessage("Here are your tasks:");
+        StringBuilder result = new StringBuilder();
+        result.append(ui.showMessage("Here are your tasks:\n"));
         for (int i = 0; i < tasks.size(); i++) {
             try {
-                ui.showMessage((i + 1) + ". " + tasks.getTask(i).toString());
-            } catch (ZennException e) {
-                ui.showError("Error retrieving task as index " + (i + 1) + ": " + e.getMessage());
+                result.append((i + 1) + ". " + tasks.getTask(i).toString() + "\n");
+            } catch (IllegalArgumentException e) {
+                return ui.showError("Error retrieving task as index " + (i + 1) + ": " + e.getMessage());
             }
         }
+        return result.toString();
     }
 }

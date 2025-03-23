@@ -3,7 +3,6 @@ package zenn.task;
 import zenn.exceptions.ZennException;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Represents a list of tasks and provides methods to manage and retrieve tasks.
@@ -42,11 +41,11 @@ public class TaskList {
      *
      * @param index The index of the task to be removed.
      * @return The task that was removed.
-     * @throws ZennException If the index is invalid.
+     * @throws IllegalArgumentException If the index is invalid.
      */
-    public Task removeTask(int index) throws ZennException {
+    public Task removeTask(int index) throws NumberFormatException {
         if (index < 0 || index >= tasks.size()) {
-            throw new ZennException("Invalid task index!");
+            throw new IllegalArgumentException("Invalid task index!");
         }
         return tasks.remove(index);
     }
@@ -56,11 +55,11 @@ public class TaskList {
      *
      * @param index The index of the task to retrieve.
      * @return The task at the specified index.
-     * @throws ZennException If the index is invalid (out of bounds).
+     * @throws IllegalArgumentException If the index is invalid (out of bounds).
      */
-    public Task getTask(int index) throws ZennException {
+    public Task getTask(int index) throws NumberFormatException {
         if (index < 0 || index >= tasks.size()) {
-            throw new ZennException("Invalid task index!");
+            throw new IllegalArgumentException("Invalid task index!");
         }
         return tasks.get(index);
     }

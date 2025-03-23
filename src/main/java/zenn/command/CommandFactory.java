@@ -51,6 +51,8 @@ public class CommandFactory {
                 return new ByeCommand(arguments, ui);
             case "delete":
                 return new DeleteCommand(arguments, tasks, storage, ui);
+            case "snooze":
+                return new SnoozeCommand(arguments, tasks, ui, storage);
             case "find":
                 if (arguments.isEmpty()) {
                     return new FindCommand(ui, tasks, "Missing keyword");

@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter;
  * It uses a predefined file path and provides methods to read and write task data.
  */
 public class Storage {
-    private static final String FILE_PATH = "./data/zenn.Zenn.txt";
+    private static final String FILE_PATH = "./data/tasks.txt";
     private static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
 
     /**

@@ -44,7 +44,8 @@ public class DeadlineCommand extends Command {
             String[] parts = arguments.split(" /by ");
             if (parts.length < 2) {
                 return ui.showError("Invalid deadline format.\n" + "Please provide a description & a deadline date.\n"
-                    + "The correct format for a deadline task is: 'description /by d/M/yyyy HHmm'");
+                    + "The correct format for a deadline task is:\n"
+                    + "deadline <description> /by <d/M/yyyy HHmm>");
             }
             String description = parts[0].trim();
             String dateTimeString = parts[1].trim();

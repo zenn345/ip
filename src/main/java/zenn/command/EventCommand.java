@@ -46,7 +46,7 @@ public class EventCommand extends Command {
             if (parts.length != 3) {
                 return ui.showError("Invalid event format. Please provide a description, start time, and end time.\n"
                     + "The correct format for an event task is:\n"
-                    + "event [description] /from d/M/yyyy HHmm /to d/M/yyyy HHmm'");
+                    + "event <description> /from <d/M/yyyy HHmm> /to <d/M/yyyy HHmm>");
             }
 
             String description = parts[0].trim();

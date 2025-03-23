@@ -140,4 +140,9 @@ bye
 * Zenn Bot saves all task in a txt file after every session.
 * There is no need to save update manually.
 
-
+## Installation 
+1. Ensure you have Java `17` or above installed on your computer.
+2. Download the latest `.jar` file from [here](https://github.com/zenn345/ip/releases/tag/A-Release).
+3. Copy the file to the folder you want to use.
+4. Open a command terminal, locate the folder of the `.jar` file.
+5. Run the command `java -jar zenn.jar`

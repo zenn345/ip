@@ -1,6 +1,7 @@
 # Zenn Bot User Guide
 
 ![A screenshot of Zenn Bot GUI](Ui.png)
+<img src="Ui.png" width="200px">
 
 Introducing Zenn Bot, your smart task management assistant, designed to help you stay organised and productive.
 

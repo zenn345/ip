@@ -52,17 +52,17 @@ public class DeadlineCommand extends Command {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
             LocalDateTime byDateTime = LocalDateTime.parse(dateTimeString, formatter);
 
-            try {
-                Deadline deadline = new Deadline(description, byDateTime);
-                tasks.addTask(deadline);
-                storage.saveTasks(tasks.getAllTasks());
-
-                return ui.showMessage("Got it. I've added this task:\n"
-                    + deadline.toString() + "\n"
-                    + "Now you have " + tasks.size() + " tasks in the list.");
-            } catch (AssertionError e) {
-                return ui.showError("Error: Deadline entered is in the past...");
+            if (byDateTime.isBefore(LocalDateTime.now())) {
+                return ui.showError("Deadline cannot be in the past...");
             }
+
+            Deadline deadline = new Deadline(description, byDateTime);
+            tasks.addTask(deadline);
+            storage.saveTasks(tasks.getAllTasks());
+
+            return ui.showMessage("Got it. I've added this task:\n"
+                + deadline.toString() + "\n"
+                + "Now you have " + tasks.size() + " tasks in the list.");
         } catch (Exception e) {
             return ui.showError("Error creating deadline task. Please check the format.");
         }

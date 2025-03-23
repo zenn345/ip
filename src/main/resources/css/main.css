@@ -8,12 +8,12 @@
     -fx-border-color: #000000;
     -fx-border-radius: 5;
     -fx-background-radius: 5;
-    -fx-font: 15px "Arial";
+    -fx-font: 15px "Times New Roman";
 }
 
 .button {
     -fx-background-color: #a8e6ce;
-    -fx-font: italic bold 16px "Arial";
+    -fx-font: italic bold 16px "Times New Roman";
 }
 
 .button:hover {

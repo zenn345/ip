@@ -23,6 +23,11 @@ public class Event extends Task {
      */
     public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description, TaskType.EVENT);
+
+        assert from.isAfter(LocalDateTime.now()) : "Start time cannot be in the past!";
+        assert to.isAfter(LocalDateTime.now()) : "End time cannot be in the past!";
+        assert !to.isBefore(from) : "End time cannot be before start time!";
+
         this.from = from;
         this.to = to;
     }

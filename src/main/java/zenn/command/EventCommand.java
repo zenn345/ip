@@ -5,6 +5,7 @@ import zenn.storage.Storage;
 import zenn.ui.Ui;
 import zenn.task.Event;
 import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -56,13 +57,17 @@ public class EventCommand extends Command {
             LocalDateTime fromDateTime = LocalDateTime.parse(fromDateTimeString, formatter);
             LocalDateTime toDateTime = LocalDateTime.parse(toDateTimeString, formatter);
 
-            Event event = new Event(description, fromDateTime, toDateTime);
-            tasks.addTask(event);
-            storage.saveTasks(tasks.getAllTasks());
+            try {
+                Event event = new Event(description, fromDateTime, toDateTime);
+                tasks.addTask(event);
+                storage.saveTasks(tasks.getAllTasks());
 
-            return "Got it. I've added this task:\n"
-                + event.toString()
-                + "\nNow you have " + tasks.size() + " tasks in the list.";
+                return "Got it. I've added this task:\n"
+                    + event.toString()
+                    + "\nNow you have " + tasks.size() + " tasks in the list.";
+            } catch (AssertionError e) {
+                return ui.showError("Error: Start or end time is in the past...");
+            }
         } catch (Exception e) {
             return ui.showError("Error creating event task. Please check the format.");
         }

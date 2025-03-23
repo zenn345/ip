@@ -26,6 +26,10 @@ public class Deadline extends Task {
         this.by = by;
     }
 
+    public void snooze(int hours) {
+        this.by = this.by.plusHours(hours);
+    }
+
     /**
      * Checks if the deadline task is on a specific date.
      *

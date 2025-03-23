@@ -1,7 +1,6 @@
 # Zenn Bot User Guide
 
-![A screenshot of Zenn Bot GUI](Ui.png)
-<img src="Ui.png" width="200px">
+<img src="Ui.png" width="400px">
 
 Introducing Zenn Bot, your smart task management assistant, designed to help you stay organised and productive.
 
@@ -14,7 +13,7 @@ List all completed and uncompleted task.
 ```
 list
 ```
-![Example of List](List.png)
+<img src="List.png" width="400px">
 
 ### Add a todo task : `todo`
 Add a new task to the task list.
@@ -75,7 +74,7 @@ snooze <task_index> <number_of_hours>
 ```
 snooze 3 2
 ```
-![Snooze task 3 for 2 hours](Snooze.png)
+<img src="Snooze.png" width="400px">
 
 ### Mark a task as completed : `done`
 Mark a task at the given index as completed.
@@ -127,7 +126,7 @@ find <keyword>
 ```
 find assignment
 ```
-![An example of find command](Find.png)
+<img src="Find.png" width="400px">
 
 ### Exiting the application : `bye`
 Exits and close the application.

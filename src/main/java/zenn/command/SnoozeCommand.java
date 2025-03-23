@@ -2,6 +2,7 @@ package zenn.command;
 
 import zenn.storage.Storage;
 import zenn.task.Deadline;
+import zenn.task.Event;
 import zenn.task.Task;
 import zenn.task.TaskList;
 import zenn.ui.Ui;
@@ -29,6 +30,11 @@ public class SnoozeCommand extends Command {
 
             if (task instanceof Deadline) {
                 ((Deadline) task).snooze(snoozeHours);
+                storage.saveTasks(taskList.getAllTasks());
+                return ui.showMessage("Task has been snoozed for " + snoozeHours
+                    + " hours:\n" + taskList.getTask(taskIndex).toString());
+            } else if (task instanceof Event) {
+                ((Event) task).snooze(snoozeHours);
                 storage.saveTasks(taskList.getAllTasks());
                 return ui.showMessage("Task has been snoozed for " + snoozeHours
                     + " hours:\n" + taskList.getTask(taskIndex).toString());

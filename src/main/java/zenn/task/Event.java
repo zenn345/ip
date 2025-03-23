@@ -32,6 +32,10 @@ public class Event extends Task {
         this.to = to;
     }
 
+    public void snooze(int hours) {
+        this.to = this.to.plusHours(hours);
+    }
+
     /**
      * Checks if the event task is on a specific duration.
      *

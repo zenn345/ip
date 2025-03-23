@@ -22,6 +22,7 @@ public class Deadline extends Task {
      */
     public Deadline(String description, LocalDateTime by) {
         super(description, TaskType.DEADLINE);
+        assert by.isAfter(LocalDateTime.now()) : "Deadline cannot be in the past...";
         this.by = by;
     }
 

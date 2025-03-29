@@ -85,7 +85,7 @@ done <task_index>
 ```
 ***Example:***
 ```
-mark 3
+done 3
 ```
 
 ### Mark a task as uncompleted : `unmark`
